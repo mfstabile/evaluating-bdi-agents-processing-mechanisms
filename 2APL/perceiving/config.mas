@@ -1,0 +1,6 @@
+<apaplmas>
+	<environment name="env" file="env.jar">
+		<parameter key="maxCounter" value="1000"/>
+	</environment>
+	<agent name="agent1" file="agent.2apl"/>
+</apaplmas>

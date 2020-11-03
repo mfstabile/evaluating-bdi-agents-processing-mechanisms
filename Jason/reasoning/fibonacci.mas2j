@@ -1,0 +1,25 @@
+/*
+    fibonacci
+    ---------------------------
+
+    Jason Project File
+
+    This file defines the initial state of the MAS
+
+    Jason 
+    Maio 07, 2019 - 16:47:54
+*/
+
+MAS fibonacci {
+
+    infrastructure: Centralised
+	
+	executionControl: myPkg.MyExecutionControl
+
+    agents:
+        counter;
+
+        calculator;
+
+}
+

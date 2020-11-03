@@ -1,0 +1,39 @@
+beliefupdates:
+	{counter(N,A)} UpCounter(N,B) { not counter(N,A), counter(N,B) }
+	{} UpCounter(N,B) { counter(N,B) }
+	{fibonacci(F-1,A) and fibonacci(F-2,B)} GetFib(F) { not fib(F-1), fib(F), fibonacci(F,A+B) }
+
+beliefs:
+	count(0).
+	fibonacci(1,1).
+	fibonacci(0,0).
+	fib(1).
+
+goals:
+	fibonacci(45).
+
+pgrules:
+	fibonacci(T) <- fibonacci(T,A) | {
+		@env(finish(), _ );
+		dropgoal(fibonacci(45));
+	}
+	fibonacci(T) <- not fibonacci(T,A) | {
+		B(fib(F));
+		GetFib(F+1);
+		B(fib(G));
+		B(fibonacci(G,A));
+		@env(perceive(T),C);
+		if(C = [[counter,X1,Y1] | REST ]){
+			updateCounter(C);
+		}
+		print(G-A);
+	}
+
+pcrules:
+	updateCounter([[counter,X1,Y1]]) <- true | {
+		UpCounter(X1,Y1);
+	}
+	updateCounter([[counter,X1,Y1] | REST ]) <- true | {
+		UpCounter(X1,Y1);
+		updateCounter( REST );
+	}

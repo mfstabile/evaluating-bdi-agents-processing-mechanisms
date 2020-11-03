@@ -1,0 +1,24 @@
+beliefupdates:
+  {fibonacci(F-1,A) and fibonacci(F-2,B)} GetFib(F) { not fib(F-1), fib(F), fibonacci(F,A+B) }
+
+beliefs:
+	count(0).
+	fibonacci(1,1).
+	fibonacci(0,0).
+	fib(1).
+
+goals:
+	fibonacci(90).
+
+pgrules:
+	fibonacci(T) <- fibonacci(T,A) | {
+		@env(finish(), _ );
+		dropgoal(fibonacci(90));
+	}
+	fibonacci(T) <- not fibonacci(T,A) | {
+		B(fib(F));
+		GetFib(F+1);
+		B(fib(G));
+		B(fibonacci(G,A));
+		print(G-A);
+	}

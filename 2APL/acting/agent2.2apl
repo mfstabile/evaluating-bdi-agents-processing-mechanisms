@@ -1,0 +1,35 @@
+beliefupdates:
+  {a(A) and b(B) and mult(O)} Multiply() { not mult(O), mult(A*B) }
+  {b(Old)} IncreaseB() { not b(Old), b(Old+1) }
+  {a(Old)} IncreaseA() { not a(Old), a(Old+1) }
+  {b(Old)} ResetB() { not b(Old), b(0) }
+
+beliefs:
+	a(0).
+	b(0).
+	mult(0).
+
+goals:
+	multiply(300).
+
+pgrules:
+	multiply(M) <- a(M) | {
+		@env(finish(), _ );
+		dropgoal(multiply(100));
+	}
+	multiply(M) <- not a(M) | {
+		while B(not a(M)) do
+		{
+			ResetB();
+			while B(not b(M)) do
+			{
+				Multiply();
+				if B(mult(Mult)) then
+				{
+					print(Mult);
+				}
+				IncreaseB();
+			}
+			IncreaseA();
+		}
+	}
